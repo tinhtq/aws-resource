@@ -1,0 +1,46 @@
+Parameters:
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
+  ImageId: # Public SSM Paramater
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref ImageId
+      KeyName: !Ref KeyName
+      # ssm dynamic reference
+      InstanceType: '{{resolve:ssm:/ec2/instanceType:1}}'
+
+  MyIAMUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: 'sample-user'
+      LoginProfile:
+        # ssm-secure dynamic reference (latest version)
+        Password: '{{resolve:ssm-secure:/iam/userPassword}}'
+
+  MyDBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+      AllocatedStorage: "20"
+      VPCSecurityGroups:
+      - !GetAtt [DBEC2SecurityGroup, GroupId]
+      # secretsmanager dynamic reference
+      MasterUsername: '{{resolve:secretsmanager:MyRDSSecret:SecretString:username}}'
+      MasterUserPassword: '{{resolve:secretsmanager:MyRDSSecret:SecretString:password}}'
+  
+  DBEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: 'Allow access from anywhwere to database'
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 3306
+        ToPort: 3306
+        CidrIp: "0.0.0.0/0"
