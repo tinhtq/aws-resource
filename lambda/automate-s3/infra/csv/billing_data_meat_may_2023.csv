@@ -1,0 +1,16 @@
+id,company_name,country,city,product_line,item,bill_date,currency,bill_amount
+1,The Beef Baron,US,San Antonio,Meat,Wagyu Beef,2023-05-01,USD,5000.00
+2,Longhorn Delicacies,US,Dallas,Meat,USDA Prime Ribeye,2023-05-02,USD,7000.00
+3,Bison Bites,US,Houston,Meat,Bison Burgers,2023-05-03,USD,6000.00
+4,The Windy City Butcher,US,Chicago,Meat,Chicago-style Hot Dogs,2023-05-04,USD,5500.00
+5,East Coast Charcuterie,US,New York,Meat,Prosciutto,2023-05-05,USD,8000.00
+6,Boreal Butchers,CA,Vancouver,Meat,Canadian Bacon,2023-05-06,CAD,15000.00
+7,Trillium Trimmings,CA,Toronto,Meat,Smoked Duck Breast,2023-05-07,CAD,16000.00
+8,The Montreal Meaterie,CA,Montreal,Meat,Montreal Smoked Meat,2023-05-08,CAD,17000.00
+9,Carnes de la Capital,MX,Mexico City,Meat,Texas-Style Brisket,2023-05-09,MXN,180000.00
+10,El Asador de Guadalajara,MX,Guadalajara,Meat,Smoked Sausages,2023-05-10,MXN,190000.00
+11,Pacific Prime,US,San Diego,Meat,Grass-Fed Lamb,2023-05-11,USD,6000.00
+12,Desert Delicatessen,US,Phoenix,Meat,Wild Boar Ribs,2023-05-12,USD,6200.00
+13,Rocky Mountain Meats,US,Denver,Meat,Elk Steaks,2023-05-13,USD,6400.00
+14,The Rain City Butcher,US,Seattle,Meat,Salmon,2023-05-14,USD,6600.00
+15,The Strips Butcher,US,Las Vegas,Meat,Dry-Aged Steaks,2023-05-15,USD,6800.00

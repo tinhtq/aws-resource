@@ -1,0 +1,16 @@
+id,company_name,country,city,product_line,item,bill_date,currency,bill_amount
+1,Lone Star Lactose,US,San Antonio,Dairy,Artisan Cheese,2023-05-01,USD,3500.00
+2,Bluebonnet Butter,US,Dallas,Dairy,Grass-Fed Butter,2023-05-02,USD,3600.00
+3,Houston Creamery,US,Houston,Dairy,Gourmet Yogurt,2023-05-03,USD,3700.00
+4,Chicago Cheesemonger,US,Chicago,Dairy,Blue Cheese,2023-05-04,USD,3800.00
+5,Manhattan Milk,US,New York,Dairy,Organic Milk,2023-05-05,USD,3900.00
+6,Cheese of the North,CA,Vancouver,Dairy,Cheddar Cheese,2023-05-06,CAD,11000.00
+7,Toronto Lacto,CA,Toronto,Dairy,Probiotic Kefir,2023-05-07,CAD,11200.00
+8,Montreal Milkman,CA,Montreal,Dairy,Gouda Cheese,2023-05-08,CAD,11400.00
+9,Lechería del Distrito,MX,Mexico City,Dairy,Monterey Jack Cheese,2023-05-09,MXN,128000.00
+10,Lácteos Guadalajara,MX,Guadalajara,Dairy,Cream Cheese,2023-05-10,MXN,130000.00
+11,Pacific Probiotics,US,San Diego,Dairy,Greek Yogurt,2023/05/11,USD,4000.00
+12,Desert Dairy,US,Phoenix,Dairy,Cottage Cheese,2023-05-12,USD,4100.00
+13,Mountain Milk,US,Denver,Dairy,Goat Cheese,2023-05-13,USD,4200.00
+14,Seattle Creamery,US,Seattle,Dairy,Camembert Cheese,2023-05-14,USD,4300.00
+15,Las Vegas Lacto,US,Las Vegas,Dairy,Burrata Coffee,2023-05-15,USD,4400.00

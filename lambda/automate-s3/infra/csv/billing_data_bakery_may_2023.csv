@@ -1,0 +1,16 @@
+"id,company_name,country,city,product_line,item,bill_date,currency,bill_amount
+1,Lone Star Bakery,US,Austin,Bakery,Texas Pecan Pie,2023-05-01,USD,1500.00
+2,Big D Doughnuts,US,Dallas,Bakery,Sourdough Donuts,2023-05-02,USD,1800.00
+3,Bayou Bagels,US,Houston,Bakery,Everything Bagels,2023-05-03,USD,2000.00
+4,Alamo Artisan Breads,US,San Antonio,Bakery,French Baguette,2023-05-04,USD,-2500.00
+5,Texas Tortilla Factory,US,El Paso,Bakery,Stone Ground Corn Tortillas,2023-05-05,USD,2300.00
+6,Niagara Neapolitan Pizza,CA,Toronto,Candy,Artisan Pizza Dough,2023-05-06,CAD,4500.00
+7,Canadian Crust Co.,CA,Vancouver,Bakery,Sourdough Bread Loaf,2023-05-07,CAD,3800.00
+8,Quebec Quiche Kitchen,CA,Quebec City,Bakery,Spinach Quiche,2023-05-08,CAD,4000.00
+9,Dulcería Del Norte,MX,Monterrey,Bakery,Brioche Bun,2023-05-09,MXN,95000.00
+10,Panadería La Frontera,MX,Tijuana,Bakery,Croissants,2023-05-10,MXN,100000.00
+11,Western Wraps,US,Austin,Bakery,Whole Wheat Tortilla,2023-05-11,USD,500000.00
+12,Sea Side Sourdough,US,Corpus Christi,Bakery,Sourdough Loaf,2023-05-12,USD,3200.00
+13,Hill Country Ciabatta,US,San Marcos,Bakery,Ciabatta Loaf,2023-05-13,USD,3400.00
+14,Praline Pastries,US,Dallas,Bakery,Chocolate Éclairs,2023-05-14,USD,3500.00
+15,Panadería del Pacífico,MX,Ensenada,Bakery,Sourdough Baguette,2023-05-15,ABC,105000.00
