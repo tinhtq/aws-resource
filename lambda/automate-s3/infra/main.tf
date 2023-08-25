@@ -21,21 +21,27 @@ resource "aws_s3_bucket_acl" "acl" {
 }
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.bucket.id
-
-  policy = <<POLICY
-{
-  "Version":"2012-10-17",
-  "Statement":[
-    {
-      "Sid":"PublicReadGetObject",
-      "Effect":"Allow",
-      "Principal": "*",
-      "Action":["s3:GetObject"],
-      "Resource":["arn:aws:s3:::${aws_s3_bucket.bucket.id}/*"]
-    }
-  ]
+  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+  
 }
-POLICY
+
+data "aws_iam_policy_document" "allow_access_from_another_account" {
+  statement {
+    principals {
+      type = "AWS"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "s3:GetObject"
+    ]
+
+    resources = [
+      aws_s3_bucket.example.arn,
+      "${aws_s3_bucket.example.arn}/*",
+    ]
+  }
+
 }
 resource "aws_s3_object" "object" {
   for_each = fileset("csv/", "*")
