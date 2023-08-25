@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "daily-snapshot:LambdaSnapShot",
+            "invokeTarget": {
+                "target": "template",
+                "templatePath": "${workspaceFolder}/ec2/daily-snapshot/template.yml",
+                "logicalId": "LambdaSnapShot"
+            },
+            "lambda": {
+                "payload": {},
+                "environmentVariables": {}
+            }
+        }
+    ]
+}
