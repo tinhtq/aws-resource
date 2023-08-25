@@ -1,1 +1,12 @@
-{}
+{
+    "Records": [ {
+        "s3": {
+            "bucket": {
+                "name": "automate-s3-25-aug"
+            },
+            "object": {
+                "key": ""
+            }
+        }}
+    ]
+}
