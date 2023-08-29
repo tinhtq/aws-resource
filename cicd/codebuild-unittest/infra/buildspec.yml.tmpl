@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - npm install -g @angular/cli@9.0.6
+  pre_build:
+    commands:
+      - npm install
+  build:
+    commands:
+      - ng build --prod
+artifacts:
+  base-directory: dist/my-angular-project
+  files:
+    - '**/*'

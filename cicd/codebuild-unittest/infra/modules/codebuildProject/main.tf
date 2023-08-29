@@ -1,20 +1,3 @@
-resource "aws_s3_bucket" "example" {
-  bucket = "example-${local.account_id}"
-}
-
-resource "aws_s3_bucket_ownership_controls" "example" {
-  bucket = aws_s3_bucket.example.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
-resource "aws_s3_bucket_acl" "example" {
-  depends_on = [aws_s3_bucket_ownership_controls.example]
-  bucket     = aws_s3_bucket.example.id
-  acl        = "private"
-}
-
 data "aws_vpc" "default" {
   default = true
 }
@@ -45,7 +28,7 @@ data "aws_iam_policy_document" "assume_role_codebuild" {
 }
 
 resource "aws_iam_role" "example" {
-  name               = "example"
+  name               = "role-${var.project}"
   assume_role_policy = data.aws_iam_policy_document.assume_role_codebuild.json
 }
 
@@ -90,8 +73,8 @@ data "aws_iam_policy_document" "example" {
     ]
 
     resources = [
-      aws_s3_bucket.codepipeline_bucket.arn,
-    "${aws_s3_bucket.codepipeline_bucket.arn}/*"]
+      var.codepipeline_bucket_artifacts_arn,
+    "${var.codepipeline_bucket_artifacts_arn}/*"]
   }
   statement {
     effect    = "Allow"
@@ -103,7 +86,7 @@ data "aws_iam_policy_document" "example" {
       variable = "ec2:Subnet"
 
       values = [
-        for s in data.aws_subnet.dev_subnet : s.arn
+        for s in data.aws_subnet.subnet : s.arn
       ]
     }
 
@@ -113,15 +96,6 @@ data "aws_iam_policy_document" "example" {
       values   = ["codebuild.amazonaws.com"]
     }
   }
-
-  statement {
-    effect  = "Allow"
-    actions = ["s3:*"]
-    resources = [
-      aws_s3_bucket.example.arn,
-      "${aws_s3_bucket.example.arn}/*",
-    ]
-  }
 }
 
 resource "aws_iam_role_policy" "example" {
@@ -130,15 +104,15 @@ resource "aws_iam_role_policy" "example" {
 }
 
 data "local_file" "buildspec_local" {
-  filename = "${path.module}/buildspec.yml.tmpl"
+  filename = "${path.root}/${var.file}"
 }
 
 
 resource "aws_codebuild_project" "project" {
-  name           = "MyAngularBuild"
+  name           = "MyAngularBuild-${var.project}"
   description    = "Build Prj for Angular Pipeline"
-  build_timeout  = "15"
-  queued_timeout = "15"
+  build_timeout  = "10"
+  queued_timeout = "10"
 
   service_role = aws_iam_role.example.arn
 
