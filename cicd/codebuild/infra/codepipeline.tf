@@ -70,7 +70,7 @@ resource "aws_codepipeline" "codepipeline" {
 
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket        = "artifact-601619162398"
+  bucket        = "artifact-${local.account_id}"
   force_destroy = true
 }
 
