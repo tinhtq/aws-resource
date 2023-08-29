@@ -1,7 +1,7 @@
 
 resource "aws_s3_bucket" "bucket_prod" {
   force_destroy = true
-  bucket = "codepipeline-601619162398-prod"
+  bucket = "codepipeline-${local.account_id}-prod"
 }
 resource "aws_s3_bucket_acl" "acl" {
     bucket = aws_s3_bucket.bucket_prod.id

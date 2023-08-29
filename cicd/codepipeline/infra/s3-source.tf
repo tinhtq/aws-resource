@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "bucket_source" {
-  bucket = "codepipeline-601619162398-source"
+  bucket = "codepipeline-${local.account_id}-source"
 }
 resource "aws_s3_bucket_acl" "acl_source" {
   bucket     = aws_s3_bucket.bucket_source.id
