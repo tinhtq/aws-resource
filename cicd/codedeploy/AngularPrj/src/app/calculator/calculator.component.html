@@ -1,0 +1,33 @@
+<div class="p-3 mt-2 mb-2 bg-secondary text-white rounded">
+    <h2>Simple Calculator</h2>
+    <form [formGroup]="calculatorForm" (ngSubmit)="onSubmit()">
+        <div class="row mt-2">
+            <div class="col">
+                <input type="number" id="first_input" class="form-control" placeholder="Your first input"
+                    formControlName="firstInput" name="first_input" required>
+            </div>
+            <div class="col">
+                <select id="operator" class="form-control" formControlName="operator" name="operator" required>
+                    <option value="">Please select an operator</option>
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="/">/</option>
+                    <option value="*">*</option>
+                </select>
+            </div>
+            <div class="col">
+                <input type="number" id="second_input" class="form-control" placeholder="Your second input"
+                    formControlName="secondInput" name="second_input" required>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col text-right">
+                <button class="btn btn-danger m-1" type="button" [disabled]="!calculatorForm.dirty" (click)="onClear()">Clear</button>
+                <button class="btn btn-success m-1" type="submit" [disabled]="!calculatorForm.valid || !calculatorForm.dirty">Calculate</button>
+            </div>
+        </div>
+    </form>
+    <div class="alert alert-primary mt-3 h5" role="alert" *ngIf="result">
+        <strong>Result:</strong> {{ result }}
+    </div>
+</div>
