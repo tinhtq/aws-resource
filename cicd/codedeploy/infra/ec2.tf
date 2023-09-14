@@ -55,7 +55,9 @@ resource "aws_instance" "example" {
     private_key = file("~/.ssh/id_rsa")
     host        = self.public_ip
   }
-
+tags = {
+    Application = "Angular"
+  }
   provisioner "remote-exec" {
     inline = [
       "sudo apt update -y",

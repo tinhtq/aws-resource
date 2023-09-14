@@ -2,3 +2,4 @@
 *tfstate*
 *.log
 .vscode
+node_modules
