@@ -23,8 +23,8 @@ data "aws_vpc" "default" {
 resource "aws_security_group" "instance" {
   name = "security-group-test"
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 8080
+    to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -45,7 +45,7 @@ resource "aws_security_group" "instance" {
   vpc_id = data.aws_vpc.default.id
 }
 
-resource "aws_instance" "example" {
+resource "aws_instance" "jenkins_server" {
   key_name               = aws_key_pair.example.key_name
   ami                    = data.aws_ami.amazon-ubuntu.id
   instance_type          = "t2.micro"
@@ -57,17 +57,17 @@ resource "aws_instance" "example" {
     host        = self.public_ip
   }
   tags = {
-    Application = "Test"
+    Application = "Jenkins"
   }
-  user_data = data.template_file.userdata.rendered
+  user_data = data.template_file.userdata_jenkins.rendered
 }
-data "template_file" "userdata" {
-  template = file("${path.module}/userdata.tpl")
+data "template_file" "userdata_jenkins" {
+  template = file("${path.module}/userdata-jenkins.tpl")
 }
 
 
-output "ip_ec2" {
-  value = aws_instance.example.public_ip
+output "jenkins_server" {
+  value = aws_instance.jenkins_server.public_dns
 }
 
 data "http" "ip" {
