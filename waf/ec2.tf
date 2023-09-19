@@ -1,7 +1,3 @@
-resource "aws_key_pair" "example" {
-  key_name   = "examplekey"
-  public_key = file("~/.ssh/id_rsa.pub")
-}
 
 data "aws_ami" "amazon-linux-ami" {
   most_recent = true
@@ -9,7 +5,7 @@ data "aws_ami" "amazon-linux-ami" {
 
   filter {
     name   = "name"
-    values = ["al2023-ami-*-x86_64"]
+    values = ["amzn2-ami-kernel-*-x86_64-gp2"]
   }
 }
 data "aws_vpc" "default" {
@@ -21,6 +17,12 @@ resource "aws_security_group" "instance" {
   ingress {
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -39,9 +41,8 @@ resource "aws_security_group" "instance" {
   vpc_id = data.aws_vpc.default.id
 }
 
-resource "aws_instance" "webserver_1" {
+resource "aws_instance" "webserver" {
   count                  = length(data.template_file.userdata)
-  key_name               = aws_key_pair.example.key_name
   ami                    = data.aws_ami.amazon-linux-ami.id
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
