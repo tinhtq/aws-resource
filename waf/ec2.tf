@@ -50,7 +50,7 @@ resource "aws_instance" "webserver_1" {
 
 data "template_file" "userdata" {
   count    = 2
-  template = file("${path.module}/userdata.tpl")
+  template = file("${path.module}/files/userdata.tpl")
   vars = {
     number = count.index + 1
   }
