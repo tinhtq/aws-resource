@@ -4,8 +4,8 @@ resource "aws_lb_target_group" "lb" {
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.default.id
   health_check {
-    protocol = "HTTP"
-    path = "/index.html"
+    protocol          = "HTTP"
+    path              = "/index.html"
     healthy_threshold = 3
     unhealthy_threshold = 2
     interval = 6
