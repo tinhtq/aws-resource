@@ -48,3 +48,17 @@ resource "aws_connect_user" "example" {
     phone_type                    = "SOFT_PHONE"
   }
 }
+data "aws_connect_queue" "queue" {
+  instance_id = aws_connect_instance.aws.id
+  name        = "BasicQueue"
+}
+
+resource "aws_connect_contact_flow" "sample_data_analyst" {
+  instance_id = aws_connect_instance.aws.id
+  name        = "Sample-Demo-Kinesis"
+  description = "Contact Flow Description"
+  type        = "CONTACT_FLOW"
+  content = templatefile("${path.module}/files/contact_flow.json.tmpl",{
+    queueArn = data.aws_connect_queue.queue.arn
+  })
+}
