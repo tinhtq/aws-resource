@@ -1,3 +1,3 @@
 # AWS Resource
 
-In this section, I create a new repo which contains several functions or terraform to create IAC in AWS Cloud
+In this section, I create a new repository that contains several functions or Terraform to create IAC in AWS Cloud
