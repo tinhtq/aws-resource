@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 resource "aws_connect_instance" "aws" {
   identity_management_type = "CONNECT_MANAGED"
   inbound_calls_enabled    = true
-  instance_alias           = "${data.aws_caller_identity.current.account_id}-kinesis"
+  instance_alias           = "${data.aws_caller_identity.current.account_id}-kinesis-connect"
   outbound_calls_enabled   = true
 }
 
@@ -58,7 +58,7 @@ resource "aws_connect_contact_flow" "sample_data_analyst" {
   name        = "Sample-Demo-Kinesis"
   description = "Contact Flow Description"
   type        = "CONTACT_FLOW"
-  content = templatefile("${path.module}/files/contact_flow.json.tmpl",{
+  content = templatefile("${path.module}/files/contact_flow.json.tmpl", {
     queueArn = data.aws_connect_queue.queue.arn
   })
 }
