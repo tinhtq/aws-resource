@@ -1,5 +1,3 @@
 {
-    "yaml.schemas": {
-        "https://raw.githubusercontent.com/aws/serverless-application-model/main/samtranslator/schema/schema.json": "file:///Users/tinhtq/Documents/Projects/my-repo/aws-resource/ec2/daily-snapshot/template.yml"
-    }
+    "cSpell.enabled": false
 }
