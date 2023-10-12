@@ -18,6 +18,12 @@ data "aws_vpc" "default" {
 }
 resource "aws_security_group" "instance" {
   name = "security-group-test"
+    ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   ingress {
     from_port   = 22
     to_port     = 22
@@ -36,7 +42,7 @@ resource "aws_security_group" "instance" {
 resource "aws_instance" "example" {
   key_name               = aws_key_pair.example.key_name
   ami                    = data.aws_ami.amazon-ubuntu.id
-  instance_type          = "t2.micro"
+  instance_type          = "t2.medium"
   vpc_security_group_ids = [aws_security_group.instance.id]
   user_data = data.template_file.userdata.rendered
 }
