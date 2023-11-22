@@ -1,1 +1,33 @@
+name: Git Secrets
+run-name: ${{ github.actor }} is learning GitHub Actions
 
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: awslabs/git-secrets
+
+      - name: Install git secret
+        run: sudo make install
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Scan the secrets with Talisman
+        uses: carhartl/talisman-secrets-scan-action@v1.4.0
+
+      - name: Run git-secrets
+        run: |
+          git secrets --install
+          git secrets --register-aws
+          git secrets --scan --recursive
+          
