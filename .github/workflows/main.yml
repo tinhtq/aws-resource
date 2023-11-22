@@ -18,9 +18,6 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          ref: develop
-          fetch-depth: 0
 
       - name: Scan the secrets with Talisman
         uses: carhartl/talisman-secrets-scan-action@v1.4.0
