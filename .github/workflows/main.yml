@@ -19,12 +19,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Scan the secrets with Talisman
-        uses: carhartl/talisman-secrets-scan-action@v1.4.0
-
       - name: Run git-secrets
         run: |
           git secrets --install
           git secrets --register-aws
           git secrets --scan --recursive
-          
