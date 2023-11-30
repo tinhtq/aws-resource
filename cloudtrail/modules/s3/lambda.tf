@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "inline_policy" {
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
-  name               = "cloudtrail-lambda-role-${var.resources}"
+  name               = "cloudtrail-lambda-role-${var.resources}-${var.region}"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   inline_policy {
     name   = "allow_ec2_permission"

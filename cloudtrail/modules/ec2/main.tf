@@ -6,7 +6,9 @@ terraform {
     }
   }
 }
-
+variable "resources" {
+  default = "ec2"
+}
 provider "aws" {
   region = var.region
 }

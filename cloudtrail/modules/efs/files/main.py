@@ -1,7 +1,8 @@
 import json
 import boto3
 import sys
-REGION="us-west-2"
+import os
+REGION=os.getenv("REGION")
 
 def lambda_handler(event, context):
     #attach_tags(event['detail']['responseElements']['vpc']['vpcId'])

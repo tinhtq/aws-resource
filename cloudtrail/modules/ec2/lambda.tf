@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "inline_policy" {
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
-  name               = "cloudtrail-lambda-role"
+  name               = "cloudtrail-lambda-role-${var.resources}-${var.region}"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   inline_policy {
     name   = "allow_ec2_permission"
@@ -39,9 +39,10 @@ data "archive_file" "lambda" {
 
 resource "aws_lambda_function" "auto_create_tag" {
   filename      = "${path.module}/files/lambda_function_payload.zip"
-  function_name = "auto_create_tag"
+  function_name = "auto_create_tags_${var.resources}"
   role          = aws_iam_role.iam_for_lambda.arn
   handler       = "main.lambda_handler"
+  timeout       = 60
 
   source_code_hash = data.archive_file.lambda.output_base64sha256
 
@@ -54,4 +55,12 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
   function_name = aws_lambda_function.auto_create_tag.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.create_resources.arn
+}
+
+resource "aws_lambda_permission" "allow_cloudwatch_2" {
+  statement_id  = "AllowExecutionFromCloudWatch2"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.auto_create_tag.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.create_resources_2.arn
 }
