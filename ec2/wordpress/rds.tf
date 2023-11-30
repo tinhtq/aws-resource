@@ -20,21 +20,21 @@ resource "aws_db_instance" "rds_master" {
   }
 }
 
-resource "aws_db_instance" "rds_replica" {
-  replicate_source_db    = aws_db_instance.rds_master.identifier
-  instance_class         = "db.t3.micro"
-  identifier             = "replica-rds-instance"
-  skip_final_snapshot    = true
-  multi_az               = false
-  availability_zone      = var.availability_zone[0]
-  vpc_security_group_ids = [aws_security_group.db.id]
-  storage_encrypted      = true
+# resource "aws_db_instance" "rds_replica" {
+#   replicate_source_db    = aws_db_instance.rds_master.identifier
+#   instance_class         = "db.t3.micro"
+#   identifier             = "replica-rds-instance"
+#   skip_final_snapshot    = true
+#   multi_az               = false
+#   availability_zone      = var.availability_zone[0]
+#   vpc_security_group_ids = [aws_security_group.db.id]
+#   storage_encrypted      = true
 
-  tags = {
-    Name = "my-rds-replica"
-  }
+#   tags = {
+#     Name = "my-rds-replica"
+#   }
 
-}
+# }
 
 resource "aws_db_subnet_group" "database_subnet" {
   name       = "db subnet"

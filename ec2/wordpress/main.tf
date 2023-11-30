@@ -12,10 +12,6 @@ data "aws_ami" "amazon-ubuntu" {
     values = ["*ubuntu-jammy-22.04-amd64-server-*"]
   }
 }
-
-data "aws_vpc" "default" {
-  default = true
-}
 resource "aws_security_group" "instance" {
   name = "security-group-instance"
   ingress {
@@ -46,21 +42,21 @@ resource "aws_security_group" "instance" {
   vpc_id     = data.aws_vpc.default.id
 }
 
-resource "aws_launch_configuration" "launch_config" {
-  name_prefix     = "wordpress-"
-  image_id        = data.aws_ami.amazon-ubuntu.id
-  key_name        = aws_key_pair.example.key_name
-  instance_type   = "t2.micro"
-  security_groups = [aws_security_group.instance.id]
-  user_data       = data.template_file.userdata.rendered
+# resource "aws_launch_configuration" "launch_config" {
+#   name_prefix     = "wordpress-"
+#   image_id        = data.aws_ami.amazon-ubuntu.id
+#   key_name        = aws_key_pair.example.key_name
+#   instance_type   = "t2.micro"
+#   security_groups = [aws_security_group.instance.id]
+#   user_data       = data.template_file.userdata.rendered
 
-  lifecycle {
-    create_before_destroy = true
-  }
-  depends_on = [
-    aws_db_instance.rds_master,
-  ]
-}
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+#   depends_on = [
+#     aws_db_instance.rds_master,
+#   ]
+# }
 
 data "template_file" "userdata" {
   template = file("${path.module}/files/userdata.tpl")
@@ -72,3 +68,11 @@ data "template_file" "userdata" {
   }
 }
 
+resource "aws_instance" "server" {
+  key_name               = aws_key_pair.example.key_name
+  ami                    = data.aws_ami.amazon-ubuntu.id
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.instance.id]
+
+  user_data = data.template_file.userdata.rendered
+}

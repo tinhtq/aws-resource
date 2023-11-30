@@ -5,11 +5,15 @@ resource "aws_key_pair" "example" {
 
 data "aws_ami" "amazon-ubuntu" {
   most_recent = true
-  owners      = ["self"]
+  owners      = ["amazon"]
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 
   filter {
     name   = "name"
-    values = ["Wordpress*"]
+    values = ["*ubuntu-jammy-22.04-amd64-server-*"]
   }
 }
 
@@ -44,4 +48,8 @@ resource "aws_instance" "example" {
   ami                    = data.aws_ami.amazon-ubuntu.id
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
+}
+
+output "ip_public" {
+  value = aws_instance.example.public_ip
 }
