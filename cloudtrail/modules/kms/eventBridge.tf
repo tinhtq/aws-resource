@@ -10,7 +10,8 @@ resource "aws_cloudwatch_event_rule" "create_resources" {
       "eventName" : [{
         "prefix" : "Create"
         }
-      ]
+      ],
+      "awsRegion" : ["${var.region}"]
     }
   })
 }

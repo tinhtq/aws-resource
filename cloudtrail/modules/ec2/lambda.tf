@@ -43,7 +43,11 @@ resource "aws_lambda_function" "auto_create_tag" {
   role          = aws_iam_role.iam_for_lambda.arn
   handler       = "main.lambda_handler"
   timeout       = 60
-
+  environment {
+    variables = {
+      REGION = var.region
+    }
+  }
   source_code_hash = data.archive_file.lambda.output_base64sha256
 
   runtime = "python3.10"

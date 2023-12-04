@@ -44,7 +44,11 @@ resource "aws_lambda_function" "auto_create_tag" {
   handler       = "main.lambda_handler"
 
   source_code_hash = data.archive_file.lambda.output_base64sha256
-
+  environment {
+    variables = {
+      REGION = var.region
+    }
+  }
   runtime = "python3.10"
 }
 
