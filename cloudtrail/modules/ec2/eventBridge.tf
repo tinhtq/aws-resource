@@ -10,7 +10,8 @@ resource "aws_cloudwatch_event_rule" "create_resources" {
       "eventName" : [{
         "prefix" : "Create"
         }
-      ]
+      ],
+      "awsRegion" : ["${var.region}"]
     }
   })
 }
@@ -32,7 +33,8 @@ resource "aws_cloudwatch_event_rule" "create_resources_2" {
     "detail-type" : ["AWS API Call via CloudTrail"],
     "detail" : {
       "eventSource" : ["ec2.amazonaws.com"],
-      "eventName" : ["RunInstances"]
+      "eventName" : ["RunInstances"],
+      "awsRegion" : ["${var.region}"]
     }
   })
 }

@@ -7,8 +7,12 @@ REGION=os.getenv("REGION")
 def lambda_handler(event, context):
     #attach_tags(event['detail']['responseElements']['vpc']['vpcId'])
     print(event['detail'])
-    principal = event['detail']['userIdentity']['principalId']
-    username = principal.split(':')[1]
+    if event['detail']['userIdentity']["type"] == "AssumedRole":
+        principal = event['detail']['userIdentity']['principalId']
+        username = principal.split(':')[1]
+    elif event['detail']['userIdentity']["type"] == "IAMUser":
+        username = event['detail']['userIdentity']['userName']
+
     eventName = event['detail']['eventName']
     resource = ""
     resourceId = ""
