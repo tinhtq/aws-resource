@@ -23,6 +23,11 @@ module "s3" {
   region = var.region
 }
 
+module "elb" {
+  source = "./elb"
+  region = var.region
+}
+
 variable "region" {
 }
 provider "aws" {
