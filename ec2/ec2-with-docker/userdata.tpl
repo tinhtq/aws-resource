@@ -6,4 +6,3 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docke
 apt update -y
 apt install docker-ce -y
 usermod -aG docker ubuntu
-sudo -u ubuntu bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash'
