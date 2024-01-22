@@ -46,7 +46,7 @@ resource "aws_security_group" "instance" {
 resource "aws_instance" "example" {
   key_name               = aws_key_pair.example.key_name
   ami                    = data.aws_ami.amazon-ubuntu.id
-  instance_type          = "t2.micro"
+  instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.instance.id]
 }
 
