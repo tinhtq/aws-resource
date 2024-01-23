@@ -5,7 +5,7 @@ resource "aws_key_pair" "example" {
 
 data "aws_ami" "amazon-ubuntu" {
   most_recent = true
-  owners      = [var.ami_owner]
+  owners      = ["amazon"]
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
@@ -13,7 +13,7 @@ data "aws_ami" "amazon-ubuntu" {
 
   filter {
     name   = "name"
-    values = [var.ami_filter]
+    values = ["*ubuntu-jammy-22.04-amd64-server-*"]
   }
 }
 
@@ -49,14 +49,14 @@ resource "aws_instance" "example" {
   ami                    = data.aws_ami.amazon-ubuntu.id
   instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.instance.id]
-  root_block_device {
-    volume_size = 20
-  }
+  user_data = data.template_file.userdata.rendered
+
+}
+
+data "template_file" "userdata" {
+  template = file("${path.module}/userdata.tpl")
 }
 
 output "ip_public" {
   value = aws_instance.example[*].public_ip
-}
-provider "aws" {
-  region = "us-east-1"
 }
