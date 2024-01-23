@@ -57,6 +57,3 @@ resource "aws_instance" "example" {
 output "ip_public" {
   value = aws_instance.example[*].public_ip
 }
-provider "aws" {
-  region = "us-east-1"
-}
