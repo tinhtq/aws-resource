@@ -44,12 +44,19 @@ resource "aws_security_group" "instance" {
 }
 
 resource "aws_instance" "example" {
+  count = var.number_ec2_instance
   key_name               = aws_key_pair.example.key_name
   ami                    = data.aws_ami.amazon-ubuntu.id
   instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.instance.id]
+  user_data = data.template_file.userdata.rendered
+
+}
+
+data "template_file" "userdata" {
+  template = file("${path.module}/userdata.tpl")
 }
 
 output "ip_public" {
-  value = aws_instance.example.public_ip
+  value = aws_instance.example[*].public_ip
 }
