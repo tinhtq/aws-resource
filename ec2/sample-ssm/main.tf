@@ -6,6 +6,10 @@ resource "aws_key_pair" "example" {
 data "aws_ami" "amazon-ubuntu" {
   most_recent = true
   owners      = ["amazon"]
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 
   filter {
     name   = "name"
@@ -18,15 +22,9 @@ data "aws_vpc" "default" {
 }
 resource "aws_security_group" "instance" {
   name = "security-group-test"
-    ingress {
+  ingress {
     from_port   = 80
     to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-      ingress {
-    from_port   = 6443
-    to_port     = 6443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -46,16 +44,19 @@ resource "aws_security_group" "instance" {
 }
 
 resource "aws_instance" "example" {
+  count = var.number_ec2_instance
   key_name               = aws_key_pair.example.key_name
   ami                    = data.aws_ami.amazon-ubuntu.id
-  instance_type          = "t2.medium"
+  instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.instance.id]
   user_data = data.template_file.userdata.rendered
-  root_block_device {
-    volume_size = 30
-  }
+
 }
 
 data "template_file" "userdata" {
   template = file("${path.module}/userdata.tpl")
+}
+
+output "ip_public" {
+  value = aws_instance.example[*].public_ip
 }
