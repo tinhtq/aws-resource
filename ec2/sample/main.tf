@@ -49,7 +49,9 @@ resource "aws_instance" "example" {
   ami                    = data.aws_ami.amazon-ubuntu.id
   instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.instance.id]
-
+  root_block_device {
+    volume_size = 20
+  }
 }
 
 output "ip_public" {
