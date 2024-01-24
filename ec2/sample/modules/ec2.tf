@@ -6,7 +6,18 @@ resource "aws_instance" "example" {
   root_block_device {
     volume_size = 30
   }
+  ebs_block_device {
+    device_name = "ebs"
+    volume_size = var.ebs
+    volume_type = "gp2"
+  }
 }
+
+resource "aws_eip" "lb" {
+  instance = aws_instance.example.id
+  domain   = "vpc"
+}
+
 
 data "aws_ami" "amazon" {
   most_recent = true
