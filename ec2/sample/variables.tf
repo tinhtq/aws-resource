@@ -1,8 +1,9 @@
 variable "instances" {
   default = [
-    { quantity = 1, ami_filter = "al2023-ami-*-x86_64", ami_owner = "amazon" },
+    { quantity = 0, ami_filter = "al2023-ami-*-x86_64", ami_owner = "amazon" },
     { quantity = 0, ami_filter = "*ubuntu-jammy-22.04-amd64-server-*", ami_owner = "amazon" },
-    { quantity = 4, ami_filter = "fedora-coreos-38*-x86_64", ami_owner = "125523088429" },
+    { quantity = 5, ami_filter = "fedora-coreos-38*-x86_64", ami_owner = "125523088429" },
+    { quantity = 1, ami_filter = "CentOS Stream 9 x86_64*", ami_owner = "125523088429" },
   ]
 }
 
