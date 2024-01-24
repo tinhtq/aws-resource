@@ -69,6 +69,7 @@ module "ec2" {
   ami_filter             = each.value.ami_filter
   instance_type          = "t3.medium"
   vpc_security_group_ids = [aws_security_group.instance.id]
+  ebs                    = 30
 }
 
 
