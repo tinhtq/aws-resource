@@ -7,3 +7,6 @@ variable "ami_owner" {
 }
 variable "ami_filter" {
 }
+variable "ebs" {
+
+}
