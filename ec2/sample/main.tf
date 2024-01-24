@@ -16,6 +16,36 @@ resource "aws_security_group" "instance" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 53
+    to_port     = 53
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 22623
+    to_port     = 22623
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 1936
+    to_port     = 1936
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -32,7 +62,7 @@ resource "aws_security_group" "instance" {
 
 
 module "ec2" {
-  for_each               = merge([for obj in var.instances : { for i in range(obj.quantity) : "name-${obj.ami_filter}-${i + 1}" => obj }]...)
+  for_each               = merge([for obj in var.instances : { for i in range(obj.quantity) : "${obj.ami_filter}-${i + 1}" => obj }]...)
   source                 = "./modules"
   key_name               = aws_key_pair.example.key_name
   ami_owner              = each.value.ami_owner
@@ -43,5 +73,5 @@ module "ec2" {
 
 
 output "instance_ip_public" {
-  value = [for i in values(module.ec2) : i["ip_public"]]
+  value = { for k, v in module.ec2 : k => v["ip_public"] }
 }
