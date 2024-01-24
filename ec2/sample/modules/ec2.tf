@@ -4,7 +4,7 @@ resource "aws_instance" "example" {
   instance_type          = var.instance_type
   vpc_security_group_ids = var.vpc_security_group_ids
   root_block_device {
-    volume_size = 20
+    volume_size = 30
   }
 }
 
