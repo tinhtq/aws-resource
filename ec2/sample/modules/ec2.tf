@@ -1,0 +1,28 @@
+resource "aws_instance" "example" {
+  key_name               = var.key_name
+  ami                    = data.aws_ami.amazon.id
+  instance_type          = var.instance_type
+  vpc_security_group_ids = var.vpc_security_group_ids
+  root_block_device {
+    volume_size = 20
+  }
+}
+
+data "aws_ami" "amazon" {
+  most_recent = true
+
+  owners = [var.ami_owner]
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "name"
+    values = [var.ami_filter]
+  }
+}
+
+output "ip_public" {
+  value = aws_instance.example.public_ip
+}
