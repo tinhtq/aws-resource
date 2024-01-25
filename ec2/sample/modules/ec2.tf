@@ -31,3 +31,6 @@ data "aws_ami" "amazon" {
 output "ip_public" {
   value = aws_instance.example.public_ip
 }
+output "ip_private" {
+  value = aws_instance.example.private_ip
+}
