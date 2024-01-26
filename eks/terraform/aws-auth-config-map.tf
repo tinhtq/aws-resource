@@ -12,6 +12,7 @@ provider "kubernetes" {
 }
 
 resource "kubernetes_config_map" "aws_auth" {
+  depends_on = [aws_eks_cluster.cluster, module.eks_self_managed_node_group]
   metadata {
     name      = "aws-auth"
     namespace = "kube-system"
@@ -26,4 +27,5 @@ resource "kubernetes_config_map" "aws_auth" {
           - system:nodes
     EOT
   }
+
 }
