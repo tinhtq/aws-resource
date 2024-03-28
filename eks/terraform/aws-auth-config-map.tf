@@ -1,7 +1,6 @@
 
 data "aws_eks_cluster_auth" "selected" {
   name = "eks_cluster"
-
 }
 
 provider "kubernetes" {
