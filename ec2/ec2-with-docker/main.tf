@@ -20,15 +20,15 @@ data "aws_vpc" "default" {
 resource "aws_security_group" "instance" {
   name = "security-group-ec2-docker"
   ingress {
-    from_port   = 9090
-    to_port     = 9090
-    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port   = 3000
-    to_port     = 3000
+    from_port   = 9091
+    to_port     = 9091
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -59,7 +59,9 @@ resource "aws_security_group" "instance" {
   vpc_id = data.aws_vpc.default.id
 }
 
+
 resource "aws_instance" "example" {
+  count                  = 1
   key_name               = aws_key_pair.example.key_name
   ami                    = data.aws_ami.amazon-ubuntu.id
   instance_type          = "t2.medium"
