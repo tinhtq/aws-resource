@@ -7,6 +7,17 @@ variable "instances" {
     { quantity = 0, ami_filter = "amzn2-ami-kernel-5.10-*-x86_64-gp2", ami_owner = "amazon" },
   ]
 }
+
+variable "ssh_file" {
+  default = "~/.ssh/id_rsa.pub"
+}
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "instance_type" {
+  default = "t2.medium"
+}
 # Amazon Linux: al2023-ami-*-x86_64
 # Ubuntu:  *ubuntu-jammy-22.04-amd64-server-*
 # Fedora  fedora-coreos-38*-x86_64

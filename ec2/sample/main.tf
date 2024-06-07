@@ -1,6 +1,6 @@
 resource "aws_key_pair" "example" {
-  key_name   = "examplekey"
-  public_key = file("~/.ssh/id_rsa.pub")
+  key_name   = "terraform-key"
+  public_key = file(var.ssh_file)
 }
 
 
@@ -54,7 +54,7 @@ module "ec2" {
   key_name               = aws_key_pair.example.key_name
   ami_owner              = each.value.ami_owner
   ami_filter             = each.value.ami_filter
-  instance_type          = "t2.medium"
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.instance.id]
   ebs                    = 30
 }
