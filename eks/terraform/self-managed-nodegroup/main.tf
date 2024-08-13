@@ -8,12 +8,13 @@ resource "aws_eks_cluster" "cluster" {
 }
 
 module "eks_self_managed_node_group" {
-  source           = "github.com/aws-samples/amazon-eks-self-managed-node-group"
+  source = "github.com/aws-samples/amazon-eks-self-managed-node-group"
+
   eks_cluster_name = "eks_cluster"
   instance_type    = "t3.medium"
-  desired_capacity = 3
-  min_size         = 3
-  max_size         = 6
+  desired_capacity = 5
+  min_size         = 1
+  max_size         = 5
   subnets          = [data.aws_subnet.zone_a.id, data.aws_subnet.zone_b.id]
 
   node_labels = {

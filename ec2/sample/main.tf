@@ -1,6 +1,6 @@
 resource "aws_key_pair" "example" {
-  key_name   = "examplekey"
-  public_key = file("~/.ssh/id_rsa.pub")
+  key_name   = "terraform-key"
+  public_key = file(var.ssh_file)
 }
 
 
@@ -35,7 +35,7 @@ resource "aws_security_group" "instance" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [data.aws_vpc.default.cidr_block]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -54,12 +54,12 @@ module "ec2" {
   key_name               = aws_key_pair.example.key_name
   ami_owner              = each.value.ami_owner
   ami_filter             = each.value.ami_filter
-  instance_type          = "t3.medium"
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.instance.id]
   ebs                    = 30
 }
 
 
 output "instance_ip_public" {
-  value = { for k, v in module.ec2 : k => v["ip_public"] }
+  value = module.ec2
 }
