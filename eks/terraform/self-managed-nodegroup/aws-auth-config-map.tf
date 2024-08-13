@@ -1,7 +1,6 @@
 
 data "aws_eks_cluster_auth" "selected" {
   name = "eks_cluster"
-
 }
 
 provider "kubernetes" {
@@ -27,5 +26,4 @@ resource "kubernetes_config_map" "aws_auth" {
           - system:nodes
     EOT
   }
-
 }
