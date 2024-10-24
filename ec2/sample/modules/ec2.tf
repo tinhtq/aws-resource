@@ -11,6 +11,7 @@ resource "aws_instance" "example" {
     volume_size = var.ebs
     volume_type = "gp2"
   }
+  subnet_id = var.subnet_id
 }
 
 data "aws_ami" "amazon" {
