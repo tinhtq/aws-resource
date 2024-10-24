@@ -3,9 +3,8 @@ resource "aws_key_pair" "example" {
   public_key = file(var.ssh_file)
 }
 
-
 data "aws_vpc" "default" {
-  default = true
+  id = var.vpc_id
 }
 resource "aws_security_group" "instance" {
   name = "security-group-test"
@@ -15,14 +14,12 @@ resource "aws_security_group" "instance" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
   ingress {
     from_port   = 6443
     to_port     = 6443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
 
   ingress {
     from_port   = 22
@@ -47,7 +44,6 @@ resource "aws_security_group" "instance" {
   vpc_id = data.aws_vpc.default.id
 }
 
-
 module "ec2" {
   for_each               = merge([for obj in var.instances : { for i in range(obj.quantity) : "${obj.ami_filter}-${i + 1}" => obj }]...)
   source                 = "./modules"
@@ -57,8 +53,8 @@ module "ec2" {
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.instance.id]
   ebs                    = 30
+  subnet_id              = var.subnet_id
 }
-
 
 output "instance_ip_public" {
   value = module.ec2
