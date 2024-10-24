@@ -35,3 +35,10 @@ variable "instance_type" {
 # variable "ami_owner" {
 #   default = "amazon"
 # }
+
+variable "vpc_id" {
+
+}
+variable "subnet_id" {
+
+}
