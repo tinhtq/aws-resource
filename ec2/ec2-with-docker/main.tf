@@ -26,8 +26,8 @@ resource "aws_security_group" "instance" {
   }
 
   ingress {
-    from_port   = 9091
-    to_port     = 9091
+    from_port   = 9000
+    to_port     = 9000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -63,11 +63,11 @@ resource "aws_instance" "example" {
   count                  = 1
   key_name               = aws_key_pair.example.key_name
   ami                    = data.aws_ami.amazon-ubuntu.id
-  instance_type          = "t2.medium"
+  instance_type          = "t2.large"
   vpc_security_group_ids = [aws_security_group.instance.id]
   user_data              = data.template_file.userdata.rendered
   root_block_device {
-    volume_size = 30
+    volume_size = 80
   }
 }
 data "template_file" "userdata" {
