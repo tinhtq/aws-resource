@@ -18,7 +18,6 @@ data "aws_vpc" "default" {
   default = true
 }
 resource "aws_security_group" "instance" {
-  name = "security-group-ec2-docker"
   ingress {
     from_port   = 0
     to_port     = 0
