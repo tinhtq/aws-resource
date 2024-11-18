@@ -10,3 +10,6 @@ variable "ami_filter" {
 variable "ebs" {
 
 }
+variable "subnet_id" {
+
+}
