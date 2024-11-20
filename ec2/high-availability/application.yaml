@@ -1,0 +1,104 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Application Resources
+
+Parameters:
+  InstanceType:
+    Type: String
+    Default: t2.micro
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Key pair for SSH access to instances
+
+Resources:
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Subnets:
+        - !ImportValue PublicSubnet1ID
+        - !ImportValue PublicSubnet2ID
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Scheme: internet-facing
+
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !ImportValue VPCID
+      GroupDescription: Allow inbound HTTP access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !ImportValue VPCID
+      Port: 80
+      Protocol: HTTP
+      TargetType: instance
+      HealthCheckProtocol: HTTP
+      HealthCheckPort: 80
+      HealthCheckPath: /
+
+  LoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+  LaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: ami-0a91cd140a1fc148a
+        InstanceType: !Ref InstanceType
+        KeyName: !Ref KeyName
+        SecurityGroupIds:
+          - !Ref EC2SecurityGroup
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !ImportValue VPCID
+      GroupDescription: Allow HTTP access from ALB
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      VPCZoneIdentifier:
+        - !ImportValue PrivateSubnet1ID
+        - !ImportValue PrivateSubnet2ID
+      LaunchTemplate:
+        LaunchTemplateId: !Ref LaunchTemplate
+        Version: 1
+      MinSize: 2
+      MaxSize: 4
+      TargetGroupARNs:
+        - !Ref TargetGroup
+
+  StaticContentBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "udagram-static-content-bucket-${AWS::AccountId}"
+      OwnershipControls:
+        Rules:
+            - ObjectOwnership: BucketOwnerEnforced
+
+Outputs:
+  LoadBalancerURL:
+    Description: Load Balancer URL
+    Value: !Sub "http://${ApplicationLoadBalancer.DNSName}"
