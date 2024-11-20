@@ -6,5 +6,6 @@ node_modules
 wordpress.xml
 *.tfvars
 test.txt
+python.zip
 backend.tf
 .DS_Store
