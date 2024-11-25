@@ -9,3 +9,4 @@ test.txt
 python.zip
 backend.tf
 .DS_Store
+.env
