@@ -1,5 +1,5 @@
 variable "db_type" {
-  default     = "t3.micro"
+  default     = "db.t3.medium"
   description = "Database Instance Type"
 }
 
@@ -14,9 +14,12 @@ variable "region" {
   type        = string
   description = "Stack Region"
 }
-variable "access_key" {
 
+variable "rds_cluster_name" {
+  default = "primary-rds-cluster"
 }
-variable "secret_key" {
-
+variable "emails" {
+  type        = list(string)
+  description = "List notification emails"
+  default     = ["truongquangtinh1997@gmail.com"]
 }
