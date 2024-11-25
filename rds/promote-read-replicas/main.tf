@@ -7,14 +7,16 @@ resource "aws_db_subnet_group" "all" {
 }
 
 resource "aws_rds_cluster" "primary" {
-  cluster_identifier          = "primary-rds-cluster"
+  cluster_identifier          = var.rds_cluster_name
   engine                      = "aurora-mysql"
   availability_zones          = var.availability_zones
   backup_retention_period     = 7
   preferred_backup_window     = "07:00-09:00"
   manage_master_user_password = true
   master_username             = "admin"
-  db_subnet_group_name        = aws_db_subnet_group.all.id
+
+  db_subnet_group_name            = aws_db_subnet_group.all.id
+  enabled_cloudwatch_logs_exports = ["error", "general", "slowquery"]
 }
 
 resource "aws_rds_cluster_instance" "primary_instance" {
@@ -43,8 +45,8 @@ resource "aws_lambda_function" "promote_read_replica" {
 
   environment {
     variables = {
-      DB_INSTANCE_ID    = aws_rds_cluster.primary.id
-      SNS_TOPIC_ARN     = aws_sns_topic.notify.arn
+      DB_INSTANCE_ID = aws_rds_cluster.primary.id
+      # SNS_TOPIC_ARN     = aws_sns_topic.notify.arn
       SECRET_NAME       = aws_rds_cluster.primary.master_user_secret[0].secret_arn
       SUBNET_GROUP_NAME = aws_db_subnet_group.all.name
     }
@@ -58,8 +60,12 @@ resource "aws_sns_topic" "notify" {
   name = "rds-disaster-recovery"
 }
 
-resource "aws_sns_topic_subscription" "email" {
+
+
+resource "aws_sns_topic_subscription" "email_subscriptions" {
+  for_each = toset(var.emails)
+
   topic_arn = aws_sns_topic.notify.arn
   protocol  = "email"
-  endpoint  = "your-email@example.com"
+  endpoint  = each.value
 }
