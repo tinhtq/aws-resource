@@ -1,10 +1,18 @@
 variable "db_type" {
-  default     = "t3.micro"
+  default     = "db.t3.medium"
   description = "Database Instance Type"
 }
+variable "db_name" {
+  default     = "test"
+  description = "Default DB Name"
+}
 
+variable "publicly_accessible" {
+  default     = true
+  description = "Access from public or not"
+}
 variable "availability_zones" {
-  default     = ["us-east-1a", "us-east-1b"]
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
   type        = list(string)
   description = "RDS AZs"
 }
@@ -14,9 +22,23 @@ variable "region" {
   type        = string
   description = "Stack Region"
 }
-variable "access_key" {
 
+variable "rds_cluster_name" {
+  default = "primary-rds-cluster"
 }
-variable "secret_key" {
+variable "emails" {
+  type        = list(string)
+  description = "List notification emails"
+  default     = ["truongquangtinh1997@gmail.com"]
+}
+variable "skip_final_snapshot" {
+  type        = bool
+  description = "Skip Final Snapshot or not"
+  default     = true
+}
 
+variable "ignore_changes_behavior" {
+  type    = list(any)
+  default = []
 }
+
