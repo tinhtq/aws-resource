@@ -1,0 +1,14 @@
+[
+  {
+    "customer_id": "123456",
+    "account_balance": 5000
+  },
+  {
+    "customer_id": "124456",
+    "account_balance": 5000
+  },
+  {
+    "customer_id": "126456",
+    "account_balance": 5000
+  }
+]
