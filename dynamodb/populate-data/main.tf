@@ -1,5 +1,3 @@
-
-
 resource "aws_dynamodb_table" "global_table" {
   name           = var.table_name
   billing_mode   = "PAY_PER_REQUEST"

@@ -76,3 +76,5 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "body": json.dumps("200 items successfully inserted into DynamoDB"),
     }
+
+lambda_handler("","")
