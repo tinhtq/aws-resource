@@ -37,24 +37,6 @@ resource "aws_iam_role_policy_attachment" "lambda_attach_policy" {
   policy_arn = aws_iam_policy.lambda_policy.arn
 }
 
-resource "aws_lambda_function" "promote_read_replica" {
-  function_name = "promote-read-replica"
-  role          = aws_iam_role.lambda_role.arn
-  handler       = "lambda_function.lambda_handler"
-  runtime       = "python3.9"
-
-  environment {
-    variables = {
-      DB_INSTANCE_ID    = aws_rds_cluster.primary.id
-      SNS_TOPIC_ARN     = aws_sns_topic.notify.arn
-      SECRET_NAME       = aws_rds_cluster.primary.master_user_secret[0].secret_arn
-      SUBNET_GROUP_NAME = aws_db_subnet_group.all.name
-    }
-  }
-
-  source_code_hash = data.archive_file.lambda.output_base64sha256
-  filename         = "python.zip"
-}
 
 resource "aws_sns_topic" "notify" {
   name = "rds-disaster-recovery"

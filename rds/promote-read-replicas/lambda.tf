@@ -32,4 +32,12 @@ resource "aws_lambda_function" "hello-world" {
   runtime = "python3.10"  # Adjust as per your runtime
   role    = aws_iam_role.lambda_execution_role.arn
   timeout = 30
+  environment {
+    variables = {
+      DB_INSTANCE_ID    = aws_rds_cluster.primary.id
+      SNS_TOPIC_ARN     = aws_sns_topic.notify.arn
+      SECRET_NAME       = aws_rds_cluster.primary.master_user_secret[0].secret_arn
+      SUBNET_GROUP_NAME = aws_db_subnet_group.all.name
+    }
+}
 }
