@@ -8,7 +8,10 @@ resource "aws_iam_role" "lambda_execution_role" {
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
-          Service = "lambda.amazonaws.com"
+          Service = [
+          "lambda.amazonaws.com",            
+          "apigateway.amazonaws.com"
+          ]
         }
       },
     ]

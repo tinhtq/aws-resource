@@ -1,5 +1,6 @@
 import json
 def lambda_handler(event, context):
+    print(event)
     message = {
         'message': 'Hello World'
     }

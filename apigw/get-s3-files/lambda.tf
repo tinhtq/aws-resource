@@ -8,7 +8,11 @@ resource "aws_iam_policy" "lambda_s3_access_policy" {
         Action = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
-          "logs:PutLogEvents"
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents",
+          "logs:GetLogEvents",
+          "logs:FilterLogEvents",
         ]
         Effect   = "Allow"
         Resource = "arn:aws:logs:*:*:*"
@@ -39,5 +43,5 @@ resource "aws_lambda_permission" "api_gw_permission" {
   function_name = aws_lambda_function.hello_world.function_name
   principal     = "apigateway.amazonaws.com"
 
-  source_arn = "${aws_api_gateway_rest_api.hello_world.execution_arn}/*/*"
+  source_arn = "${aws_api_gateway_rest_api.handle_s3_obj.execution_arn}/*/*"
 }
