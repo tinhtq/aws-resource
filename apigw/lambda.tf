@@ -28,10 +28,6 @@ data "aws_iam_policy_document" "inline_policy" {
 resource "aws_iam_role" "iam_for_lambda" {
   name               = "kinesis-lambda-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
-  inline_policy {
-    name   = "allow_describe_organization"
-    policy = data.aws_iam_policy_document.inline_policy.json
-  }
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_execution_role" {
