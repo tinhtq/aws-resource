@@ -1,4 +1,11 @@
+import json
 def lambda_handler(event, context):
-    return { 
-        'message' : "Hello World"
+    message = {
+        'message': 'Hello World'
+    }
+
+    return {
+    'statusCode': 200,
+    'headers': {'Content-Type': 'application/json'},
+    'body': json.dumps(message)
     }
