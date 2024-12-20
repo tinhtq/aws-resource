@@ -10,23 +10,26 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-data "aws_iam_policy_document" "inline_policy" {
-  statement {
-    actions = [
-      "kinesis:DescribeStream",
-      "kinesis:DescribeStreamSummary",
-      "kinesis:GetRecords",
-      "kinesis:GetShardIterator",
-      "kinesis:ListShards",
-      "kinesis:ListStreams",
-      "kinesis:SubscribeToShard"
+resource "aws_iam_role_policy" "lambda_policy" {
+  name   = "lambda-policy"
+  role   = aws_iam_role.lambda_execution_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      }
     ]
-    resources = [aws_kinesis_stream.stream.arn]
-  }
+  })
 }
-
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = "kinesis-lambda-role"
+resource "aws_iam_role" "lambda_execution_role" {
+  name               = "lambda-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
