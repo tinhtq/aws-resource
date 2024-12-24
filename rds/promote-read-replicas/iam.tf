@@ -1,5 +1,5 @@
-resource "aws_iam_role" "lambda_role" {
-  name = "lambda-rds-promoter-role"
+resource "aws_iam_role" "lambda_execution_role" {
+  name = "lambda_execution_role"
 
   assume_role_policy = <<EOF
 {
@@ -35,7 +35,24 @@ resource "aws_iam_policy" "lambda_policy" {
         ],
         Effect   = "Allow",
         Resource = "*"
+      },
+            {
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
       }
     ]
   })
 }
+
+
+
+resource "aws_iam_role_policy_attachment" "lambda_s3_policy_attachment" {
+  role       = aws_iam_role.lambda_execution_role.name
+  policy_arn = aws_iam_policy.lambda_policy.arn
+}
+

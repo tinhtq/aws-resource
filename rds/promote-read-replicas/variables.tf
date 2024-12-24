@@ -42,3 +42,11 @@ variable "ignore_changes_behavior" {
   default = []
 }
 
+variable "function_name" {
+  default = "promote-read-replica"
+  description = "Lambda Function Name"
+}
+variable "access_key" {
+}
+variable "secret_key" {
+}
